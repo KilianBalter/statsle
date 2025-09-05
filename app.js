@@ -7,8 +7,7 @@ import {
   MessageComponentTypes,
   verifyKeyMiddleware,
 } from 'discord-interactions';
-import { calculateAverages, calculateHeadToHead, getRecaps } from './logic.js';
-import { readAllData } from './utils.js';
+import { calculateAverages, calculateHeadToHead, getRecaps, readAllData } from './logic.js';
 
 // Create an express app
 const app = express();
