@@ -62,7 +62,26 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
     // "averages" command
     if (name === 'averages') {
       let finalString = "User: Average (Completed | Failed/Unfinished)\n";
-      const averages = calculateAverages(req.body.channel_id);
+
+      try {
+        const averages = calculateAverages(req.body.channel_id);
+      } catch (err) {
+        res.send({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            flags: InteractionResponseFlags.EPHEMERAL | InteractionResponseFlags.IS_COMPONENTS_V2,
+            components: [
+              {
+                type: MessageComponentTypes.TEXT_DISPLAY,
+                content: "This channel has no Wordle statisics."
+              }
+            ]
+          },
+        });
+
+        return
+      }
+
       for (const arr of averages) {
         finalString += `<@${arr[0]}>: ${arr[1].toFixed(2)} (${arr[2]} | ${arr[3]})\n`;
       }
@@ -90,7 +109,24 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       const user1 = req.body.data.options[0].value;
       const user2 = req.body.data.options[1].value;
 
-      const userScores = calculateHeadToHead(req.body.channel_id, user1, user2);
+      try {
+        const userScores = calculateHeadToHead(req.body.channel_id, user1, user2);
+      } catch (err) {
+        res.send({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            flags: InteractionResponseFlags.EPHEMERAL | InteractionResponseFlags.IS_COMPONENTS_V2,
+            components: [
+              {
+                type: MessageComponentTypes.TEXT_DISPLAY,
+                content: "This channel has no Wordle statisics."
+              }
+            ]
+          },
+        });
+
+        return;
+      }
       const total = userScores[2];
       const difference = Math.abs(userScores[0] - userScores[1]);
       const winner = userScores[0] > userScores[1] ? "user1" : userScores[0] < userScores[1] ? "user2" : "tie";
