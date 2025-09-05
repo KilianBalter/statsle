@@ -48,6 +48,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         allowed_mentions: { "parse": [] }
       }
       DiscordRequest(`channels/925982057270763610/messages`, { method: "POST", body: message})
+      DiscordRequest(`interactions/925982057270763610/messages`, { method: "POST", body: message})
 
       // Send a message into the channel where command was triggered from
       res.send({
@@ -99,12 +100,12 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
           flags: 1 << 12 | InteractionResponseFlags.IS_COMPONENTS_V2,
+          allowed_mentions: { "parse": [] },
           components: [
             {
               type: MessageComponentTypes.TEXT_DISPLAY,
               // Fetches a random emoji to send from a helper function
-              content: finalString,
-              allowed_mentions: { "parse": [] }
+              content: finalString
             }
           ]
         },
@@ -178,11 +179,11 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         data: {
           // Suppress notifs, Components V2
           flags: 1 << 12 | 1 << 15,
+          allowed_mentions: { "parse": [] },
           components: [
             {
               type: MessageComponentTypes.TEXT_DISPLAY,
-              content: finalString,
-              allowed_mentions: { "parse": [] }
+              content: finalString
             }
           ]
         },
