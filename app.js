@@ -96,7 +96,8 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
             {
               type: MessageComponentTypes.TEXT_DISPLAY,
               // Fetches a random emoji to send from a helper function
-              content: finalString
+              content: finalString,
+              allowed_mentions: { "parse": [] }
             }
           ]
         },
@@ -173,7 +174,8 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
           components: [
             {
               type: MessageComponentTypes.TEXT_DISPLAY,
-              content: finalString
+              content: finalString,
+              allowed_mentions: { "parse": [] }
             }
           ]
         },
