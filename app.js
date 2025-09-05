@@ -8,13 +8,14 @@ import {
   verifyKeyMiddleware,
 } from 'discord-interactions';
 import { calculateAverages, calculateHeadToHead, getRecaps } from './logic.js';
+import { readAllData } from './utils.js';
 
 // Create an express app
 const app = express();
 // Get port, or default to 3000
 const PORT = process.env.PORT || 3000;
 
-
+readAllData();
 /**
  * Interactions endpoint URL where Discord will send HTTP requests
  * Parse request body and verifies incoming requests using discord-interactions package

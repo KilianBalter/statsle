@@ -1,7 +1,18 @@
 import { DiscordRequest, readData, writeData, sleep } from './utils.js';
+import fs from "fs";
+import path from "path"
 
 let scoreData = new Map();
 let lastParsed = new Map();
+
+export function readAllData() {
+  return fs.readdirSync("data").map(file => {
+    const channel = path.basename(file, ".json");
+    const data = readData(channel);
+    scoreData.set(channel, data[0]);
+    lastParsed.set(channel, data[1]);
+  });
+}
 
 export async function getRecaps(guild, channel) {
   let scoreAndDay = readData(channel);
@@ -29,7 +40,7 @@ export async function getRecaps(guild, channel) {
         res = await DiscordRequest(`channels/${channel}/messages?before=${before}&limit=100`, { method: 'GET' })
           .then(res => res.json());
 
-      before = res[res.length-1].id;
+      before = res[res.length - 1].id;
 
       // Filter out recaps
       res = res.filter(m => m.author.id === "1211781489931452447" && m.content.includes("Your group"));
@@ -44,7 +55,7 @@ export async function getRecaps(guild, channel) {
 
       console.log(`Found ${res.length} recaps.`);
       if (res.length != 0)
-        console.log("Last: Day " + res[res.length-1].content.match(/[0-9]+/)[0]);
+        console.log("Last: Day " + res[res.length - 1].content.match(/[0-9]+/)[0]);
       recaps = recaps.concat(res);
 
       if (res.length === 0)
