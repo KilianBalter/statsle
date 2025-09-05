@@ -8,6 +8,7 @@ import {
   verifyKeyMiddleware,
 } from 'discord-interactions';
 import { calculateAverages, calculateHeadToHead, getRecaps, readAllData } from './logic.js';
+import { DiscordRequest } from './utils.js';
 
 // Create an express app
 const app = express();
@@ -41,6 +42,11 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
     if (name === 'updatedata') {
 
       getRecaps(req.body.guild_id, req.body.channel_id);
+
+      const message = {
+        content: "<@156351695914401792> Hi",
+      }
+      DiscordRequest(`channels/925982057270763610/messages`, { method: "POST", body: message})
 
       // Send a message into the channel where command was triggered from
       res.send({
