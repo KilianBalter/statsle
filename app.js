@@ -43,13 +43,6 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
 
       getRecaps(req.body.guild_id, req.body.channel_id);
 
-      const message = {
-        content: "<@156351695914401792> Hi",
-        allowed_mentions: { "parse": [] }
-      }
-      DiscordRequest(`channels/925982057270763610/messages`, { method: "POST", body: message})
-      DiscordRequest(`interactions/925982057270763610/messages`, { method: "POST", body: message})
-
       // Send a message into the channel where command was triggered from
       res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
