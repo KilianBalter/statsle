@@ -29,7 +29,7 @@ const UPDATEDATA_COMMAND = {
 //Averages command
 const AVERAGES_COMMAND = {
   name: 'averages',
-  description: 'Calculates averages for every user',
+  description: 'Calculates averages for every user and shows number of Wordles completed and failed/unfinished',
   type: 1,
   integration_types: [0, 1],
   contexts: [0, 1, 2],
@@ -38,7 +38,7 @@ const AVERAGES_COMMAND = {
 //Head to Head command
 const HEADTOHEAD_COMMAND = {
   name: 'headtohead',
-  description: 'Calculates head to head score between two users',
+  description: 'Calculates head to head score between two users. Solving a Wordle in fewer tries gives +1 point, ties give +0.5 each.',
   type: 1,
   options: [
     {
