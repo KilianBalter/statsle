@@ -45,6 +45,7 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
 
       const message = {
         content: "<@156351695914401792> Hi",
+        allowed_mentions: { "parse": [] }
       }
       DiscordRequest(`channels/925982057270763610/messages`, { method: "POST", body: message})
 
