@@ -165,7 +165,8 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
         u2Sym = "🟦";
       }
 
-      const finalString = `<@${user1}> ${u1Sign}${difference} ${u1Sym.repeat(u1Squares)}⬜${u2Sym.repeat(u2Squares)} ${u2Sign}${difference} <@${user2}>`;
+      const finalString = "Wordles completed with fewer guesses:";
+      finalString += `<@${user1}> ${u1Sign}${difference} ${u1Sym.repeat(u1Squares)}⬜${u2Sym.repeat(u2Squares)} ${u2Sign}${difference} <@${user2}>`;
       // Send a message into the channel where command was triggered from
       res.send({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
