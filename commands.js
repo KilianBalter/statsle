@@ -17,33 +17,47 @@ function createCommandChoices() {
   return commandChoices;
 }
 
-// Simple test command
-const TEST_COMMAND = {
-  name: 'test',
-  description: 'Basic command',
+//Get Data command
+const UPDATEDATA_COMMAND = {
+  name: 'updatedata',
+  description: 'Collects all score data',
   type: 1,
   integration_types: [0, 1],
   contexts: [0, 1, 2],
 };
 
-// Command containing options
-const CHALLENGE_COMMAND = {
-  name: 'challenge',
-  description: 'Challenge to a match of rock paper scissors',
-  options: [
-    {
-      type: 3,
-      name: 'object',
-      description: 'Pick your object',
-      required: true,
-      choices: createCommandChoices(),
-    },
-  ],
+//Averages command
+const AVERAGES_COMMAND = {
+  name: 'averages',
+  description: 'Calculates averages for every user',
   type: 1,
   integration_types: [0, 1],
-  contexts: [0, 2],
+  contexts: [0, 1, 2],
 };
 
-const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND];
+//Head to Head command
+const HEADTOHEAD_COMMAND = {
+  name: 'headtohead',
+  description: 'Calculates head to head score between two users',
+  type: 1,
+  options: [
+    {
+      type: 6,
+      name: 'user1',
+      description: 'First user',
+      required: true,
+    },
+    {
+      type: 6,
+      name: 'user2',
+      description: 'Second user',
+      required: true,
+    }
+  ],
+  integration_types: [0, 1],
+  contexts: [0, 1, 2],
+};
+
+const ALL_COMMANDS = [UPDATEDATA_COMMAND, AVERAGES_COMMAND, HEADTOHEAD_COMMAND];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);

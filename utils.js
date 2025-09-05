@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import fs from "fs";
 
 export async function DiscordRequest(endpoint, options) {
   // append endpoint to root API URL
@@ -36,12 +37,46 @@ export async function InstallGlobalCommands(appId, commands) {
   }
 }
 
-// Simple method that returns a random emoji from list
-export function getRandomEmoji() {
-  const emojiList = ['😭','😄','😌','🤓','😎','😤','🤖','😶‍🌫️','🌏','📸','💿','👋','🌊','✨'];
-  return emojiList[Math.floor(Math.random() * emojiList.length)];
+export function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+export function readData(channel) {
+  const path = `data/${channel}.json`;
+  let data = [new Map(), 0];
+  try {
+    if (fs.existsSync(path)) {
+      const content = fs.readFileSync(path, "utf-8").trim();
+      let initData = JSON.parse(content);
+      const lastParsed = initData.pop();
+      for (let i = 0; i < initData.length; i++) {
+        initData[i][1] = new Map(initData[i][1]);
+      }
+      initData = new Map(initData);
+      data = [initData, lastParsed];
+      console.log("Score data has been read.")
+    }
+  } catch (err) {
+    console.error("Error reading data\n", err);
+    data = [new Map(), 0];
+  }
+
+  return data;
+}
+
+export function writeData(channel, data, lastParsed) {
+  try {
+    const serialized = [...data];
+    for (let i = 0; i < serialized.length; i++) {
+      serialized[i][1] = [...serialized[i][1]];
+    }
+    serialized.push(lastParsed);
+    const serializedStr = JSON.stringify(serialized);
+    fs.writeFileSync(`data/${channel}.json`, serializedStr);
+    console.log("Score data has been saved.");
+  } catch (err) {
+    console.error("Error saving data\n", err);
+  }
+
+  return;
 }
