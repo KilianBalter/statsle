@@ -63,8 +63,9 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
     if (name === 'averages') {
       let finalString = "User: Average (Completed | Failed/Unfinished)\n";
 
+      let averages;
       try {
-        const averages = calculateAverages(req.body.channel_id);
+        averages = calculateAverages(req.body.channel_id);
       } catch (err) {
         res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -109,8 +110,9 @@ app.post('/interactions', verifyKeyMiddleware(process.env.PUBLIC_KEY), async fun
       const user1 = req.body.data.options[0].value;
       const user2 = req.body.data.options[1].value;
 
+      let userScores;
       try {
-        const userScores = calculateHeadToHead(req.body.channel_id, user1, user2);
+        userScores = calculateHeadToHead(req.body.channel_id, user1, user2);
       } catch (err) {
         res.send({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
